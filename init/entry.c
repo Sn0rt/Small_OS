@@ -3,7 +3,7 @@
 int kern_entry()
 {
 	uint8_t *input = (uint8_t *)0xB8000;
-	uint8_t color = (0 << 4) | (15 & 0x0F);
+	uint8_t color = (0x00 << 4) | (0x0f & 0x0f);
 
 	*input++ = 'H'; *input++ = color;
 	*input++ = 'e'; *input++ = color;
