@@ -1,3 +1,4 @@
-mount
-*.img
+small_os
 *.o
+floppy.img
+
