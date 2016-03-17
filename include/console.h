@@ -1,8 +1,7 @@
 #ifndef INCLUDE_CONSOLE_H_
 #define INCLUDE_CONSOLE_H_
 
-#include "types.h"
-
+#include "common.h"
 
 //The constat of color
 typedef enum real_color {
