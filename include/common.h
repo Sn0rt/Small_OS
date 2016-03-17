@@ -10,3 +10,4 @@ uint8_t inb(uint16_t port);
 
 //in a word
 uint16_t inw(uint16_t prot);
+#endif

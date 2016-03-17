@@ -32,7 +32,7 @@ update_image:
 
 .PHONY:mount_image
 mount_image:
-	sudo mount floppy.img ./mount 
+	sudo mount floppy.img ./mount
 
 .PHONY:umount_image
 umount_image:

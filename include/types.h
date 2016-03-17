@@ -1,5 +1,3 @@
-// 定义几个基本的关键字
-
 #ifndef INCLUDE_YTPES_H_
 #define INCLUDE_YTPES_H_
 
