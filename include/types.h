@@ -2,12 +2,12 @@
 #define INCLUDE_YTPES_H_
 
 #ifndef NULL
-    #define NULL 0
+#define NULL 0
 #endif
 
 #ifndef TRUE
-    #define TURE 1
-    #define FALSE 0
+#define TRUE 1
+#define FALSE 0
 #endif
 
 typedef unsigned int uint32_t;

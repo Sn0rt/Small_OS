@@ -45,3 +45,6 @@ clean:
 .PHONY:qemu
 qemu:
 	qemu-system-x86_64 -fda ./floppy.img -boot a
+
+debug:
+	qemu-system-x86_64 -S -s -fda ./floppy.img -boot a

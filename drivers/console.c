@@ -5,13 +5,28 @@ static uint16_t *void_memory = (uint16_t *)0xB8000;
 static uint8_t cursor_x = 0;
 static uint8_t cursor_y = 0;
 
-void move_cursor()
+static void move_cursor()
 {
     uint16_t cursor_where = cursor_y * 80 + cursor_x;
     outb(0x3D4, 14);
     outb(0x3D5, cursor_where >> 8);
     outb(0x3D4, 15);
     outb(0x3D5, cursor_where);
+}
+
+static void scroll()
+{
+    uint8_t attribute_byte = (0 << 4) | (15 & 0x0F);
+    uint16_t blank = 0x20 | (attribute_byte << 8);
+    if (cursor_y >= 25) {
+        for (int i = 0;  i < 24 * 80; i++) {
+            void_memory[i] = void_memory[i+80];
+        }
+        for (int i = 24 * 80; i < 25 * 80; i++) {
+            void_memory[i] = blank;
+        }
+        cursor_y = 24;
+    }
 }
 
 void console_clear()
@@ -26,20 +41,6 @@ void console_clear()
     move_cursor();
 }
 
-void scroll()
-{
-    uint8_t attribute_byte = (0 << 4) | (15 & 0x0F);
-    uint16_t blank = 0x20 | (attribute_byte << 8);
-    if (cursor_y >= 25) {
-        for (int i = 0;  i < 24 * 80; i++) {
-            void_memory[i] = void_memory[i+80];
-        }
-        for (int i = 24 * 80; i < 25 * 80; i++) {
-            void_memory[i] = blank;
-        }
-        cursor_y = 24;
-    }
-}
 
 void console_putc_color(char c, real_color_t back, real_color_t fore)
 {

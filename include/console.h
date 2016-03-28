@@ -23,11 +23,7 @@ typedef enum real_color {
     rc_white = 15
 }    real_color_t;
 
-extern void move_cursor();
-
 extern void console_clear();
-
-extern void console_scroll();
 
 extern void console_putc_color(char, real_color_t, real_color_t);
 
