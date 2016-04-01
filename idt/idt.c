@@ -3,6 +3,9 @@
 #include "idt.h"
 #include "debug.h"
 
+// 声明加载IDTR的函数
+extern void idt_flush(uint32_t);
+
 // 中断描述表
 idt_entry_t idt_entries[256];
 
@@ -16,10 +19,13 @@ interrupt_handler_t interrupt_handlers[256];
 static void idt_set_gate(uint8_t num, uint32_t base,
                          uint16_t sel, uint8_t flags)
 {
-  idt_entries[num].base_lo = base & 0xFFFF;
-  idt_entries[num].base_hi = (base >> 16) & 0xFFFF;
+  idt_entries[num].base_low = base & 0xFFFF;
+  idt_entries[num].base_high = (base >> 16) & 0xFFFF;
   idt_entries[num].sel = sel;
   idt_entries[num].always0 = 0;
+
+  /* 0x60魔数,以后用户态实现时候这个与运算可以设置中断门的特权为3 */
+  idt_entries[num].flags = flags; /* |0x60 */
 }
 
 void isr_handler(pt_regs *regs)
@@ -31,11 +37,6 @@ void isr_handler(pt_regs *regs)
                  regs->int_no);
   }
 }
-
-
-
-// 声明加载IDTR的函数
-extern void idt_flush(uint32_t);
 
 void init_idt()
 {
@@ -78,8 +79,8 @@ void init_idt()
   idt_set_gate(30, (uint32_t)isr30, 0x08, 0x8E );
   idt_set_gate(31, (uint32_t)isr31, 0x08, 0x8E );
 
+  /* 255留着以后的中断开发 */
   idt_set_gate(255, (uint32_t)isr255, 0x08, 0x8E);
 
   idt_flush((uint32_t) & idt_ptr);
 }
-

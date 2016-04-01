@@ -10,8 +10,7 @@ int kern_entry()
     init_idt();
     console_clear();
     printk_color(rc_black, rc_green, "Hello Small OS!\n");
-
     asm volatile("int $0x03");
-    asm volatile("int $0x04");
+    asm volatile("int $0x05");
     return 0;
 }

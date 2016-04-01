@@ -27,6 +27,7 @@ idt_flush:
   ret
 .end:
 
+; 定义中断处理函数
 ISR_NOERRCODE 0
 ISR_NOERRCODE 1
 ISR_NOERRCODE 2
@@ -48,7 +49,7 @@ ISR_ERRCODE 17
 ISR_NOERRCODE 18
 ISR_NOERRCODE 19
 
-;20-31 intel保留
+; 20-31 intel保留
 ISR_NOERRCODE 20
 ISR_NOERRCODE 21
 ISR_NOERRCODE 22
@@ -62,13 +63,14 @@ ISR_NOERRCODE 29
 ISR_NOERRCODE 30
 ISR_NOERRCODE 31
 
+; 32-255用户定义中断
 ISR_NOERRCODE 255
 
 [GLOBAL isr_common_stub]
 [EXTERN isr_handler]
-;中断服务程序
+; 中断服务程序
 isr_common_stub:
-  pusha
+  pusha                         ; pushes edi, esi, ebp, esp, ebx, edx, ecx, eax
   mov ax, ds
   push eax                      ; 保存数据段描述符
 
