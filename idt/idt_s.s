@@ -96,3 +96,61 @@ isr_common_stub:
   add esp, 8
   iret
 .end:
+
+; 构造中断请求的宏
+%macro IRQ 2
+[GLOBAL irq%1]
+irq%1:
+  cli
+  push byte 0
+  push byte %2
+  jmp irq_common_stub
+%endmacro
+
+IRQ 0, 32                 ; timer 
+IRQ 1, 33                 ; keryboard 
+IRQ 2, 34                 ; 与IRQ9相连,mpu-401DM使用 
+IRQ 3, 33                 ; 串口设备 
+IRQ 4, 36                 ; 串口设备 
+IRQ 5, 37                 ; 建议声卡使用 
+IRQ 6, 38                 ; 软驱传输控制器 
+IRQ 7, 39                 ; 打印机传输控制器使用 
+IRQ 8, 40                 ; 即使时钟 
+IRQ 9, 41                 ; 有IRQ2相连 
+IRQ 10, 42                ; 建议网卡使用 
+IRQ 11, 43                ; 建议AGP显卡使用 
+IRQ 12, 44                ; 建议PS/2鼠标 
+IRQ 13, 45                ; 协处理器 
+IRQ 14, 46                ; IDE0传输 
+IRQ 15, 47                ; IDE1传输
+
+[GLOBAL irq_common_stub]
+[EXTERN irq_handler]
+irq_common_stub:
+  pusha
+
+  mov ax, ds
+  push eax                      ; 保存数据段描述符
+
+  mov ax, 0x10                  ; 加载内核数据段描述符
+  mov ds, ax
+  mov es, ax
+  mov fs, ax
+  mov gs, ax
+  mov ss, ax
+
+  push esp
+  call irq_handler
+  add esp, 4
+
+  pop ebx                       ; 恢复现场
+  mov ds, bx
+  mov es, bx
+  mov fs, bx
+  mov gs, bx
+  mov ss, bx
+
+  popa
+  add esp, 8
+  iret
+.end:

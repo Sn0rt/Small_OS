@@ -89,4 +89,43 @@ void isr31();
 /* user define isr */
 void isr255();
 
+/* IRQ处理函数 */
+void irq_handler(pt_regs *regs);
+
+/* 定义IQR */
+#define IRQ0 32                 /* timer */
+#define IRQ1 33                 /* keryboard */
+#define IRQ2 34                 /* 与IRQ9相连,mpu-401DM使用 */
+#define IRQ3 33                 /* 串口设备 */
+#define IRQ4 36                 /* 串口设备 */
+#define IRQ5 37                 /* 建议声卡使用 */
+#define IRQ6 38                 /* 软驱传输控制器 */
+#define IRQ7 39                 /* 打印机传输控制器使用 */
+#define IRQ8 40                 /* 即使时钟 */
+#define IRQ9 41                 /* 有IRQ2相连 */
+#define IRQ10 42                /* 建议网卡使用 */
+#define IRQ11 43                /* 建议AGP显卡使用 */
+#define IRQ12 44                /* 建议PS/2鼠标 */
+#define IRQ13 45                /* 协处理器 */
+#define IRQ14 46                /* IDE0传输 */
+#define IRQ15 47                /* IDE1传输 */
+
+/* 声明irq函数 */
+void irq0();
+void irq1();
+void irq2();
+void irq3();
+void irq4();
+void irq5();
+void irq6();
+void irq7();
+void irq8();
+void irq9();
+void irq10();
+void irq11();
+void irq12();
+void irq13();
+void irq14();
+void irq15();
+
 #endif
