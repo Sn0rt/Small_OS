@@ -1,3 +1,13 @@
+; 将idt载入idtr
+
+[GLOBAL idt_flush]
+idt_flush:
+  mov eax, [esp+4]
+  lidt [eax]
+  ret
+.end:
+
+
 ; 定义两个构造中断处理函数的宏有的有错误代码,有的没有
 
 ; 用于没有错误代码的中断
@@ -19,13 +29,6 @@ isr%1:
   jmp isr_common_stub
 %endmacro
 
-
-[GLOBAL idt_flush]
-idt_flush:
-  mov eax, [esp+4]
-  lidt [eax]
-  ret
-.end:
 
 ; 定义中断处理函数
 ISR_NOERRCODE 0
