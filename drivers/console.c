@@ -46,7 +46,8 @@ void console_putc_color(char c, real_color_t back, real_color_t fore)
 {
     uint8_t back_color = (uint8_t)back;
     uint8_t fore_color = (uint8_t)fore;
-    uint8_t attribute_byte = (back_color << 4) || (fore_color && 0x0F);
+
+    uint8_t attribute_byte = (back_color << 4) | (fore_color & 0x0F);
     uint16_t attribute = attribute_byte << 8;
 
     if (c == 0x08 && cursor_x) {

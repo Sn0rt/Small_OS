@@ -6,7 +6,7 @@
 void timer_callback(pt_regs *regs)
 {
   static uint32_t tick = 0;
-  printk_color(rc_black, rc_red, "tick: %d", tick++);
+  printk_color(rc_black, rc_red, "tick: %d\n", tick++);
 }
 
 void init_timer(uint32_t frequency)
