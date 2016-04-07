@@ -7,16 +7,45 @@ small_os目的是实现一个简单的unix like系统，目的是学习操作系
 
 <pre><code>
 .
-├── Makefile 
 ├── boot
 │   └── boot.s
-├── floppy.img //安装好grub的软盘镜像
+├── drivers
+│   ├── console.c
+│   └── timer.c
+├── floppy.img
+├── gdt
+│   ├── gdt.c
+│   └── gdt_s.s
+├── idt
+│   ├── idt.c
+│   └── idt_s.s
 ├── include
-│   └── types.h
+│   ├── common.h
+│   ├── console.h
+│   ├── debug.h
+│   ├── elf.h
+│   ├── gdt.h
+│   ├── idt.h
+│   ├── multiboot.h
+│   ├── string.h
+│   ├── timer.h
+│   ├── types.h
+│   └── vargs.h
 ├── init
 │   └── entry.c
-├── mount //这是文件挂载点
+├── kernel
+│   └── debug
+│       ├── debug.c
+│       ├── elf.o
+│       └── printk.c
+├── libs
+│   ├── common.c
+│   ├── elf.c
+│   └── string.c
+├── Makefile
+├── mount
+├── readme.md
 └── scripts
-    ├── bochsrc.txt //bochs的配置文件
     └── kernel.ld
 </pre></code>
+
