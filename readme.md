@@ -50,6 +50,6 @@ small_os目的是实现一个简单的unix like系统，目的是学习操作系
 </pre></code>
 
 <h3>参考连接</h3>
-[hurlex](https://github.com/hurley25/hurlex-doc)
-[OSdev](http://wiki.osdev.org/Main_Page)
-[JamesM's kernel development tutorials ](http://www.jamesmolloy.co.uk/tutorial_html/index.html)
+[hurlex](https://github.com/hurley25/hurlex-doc)</br>
+[OSdev](http://wiki.osdev.org/Main_Page)</br>
+[JamesM's kernel development tutorials ](http://www.jamesmolloy.co.uk/tutorial_html/index.html)</br>
