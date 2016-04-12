@@ -1,3 +1,4 @@
 *.o
 G*
 tags
+small_os
