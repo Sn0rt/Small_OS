@@ -3,21 +3,21 @@
 ;---------------------------------------
 
 
-MBOOT_HEADER_MAGIC  equ     0x1BADB002  ; Magic number from mboot standar
-MBOOT_PAGE_ALIGN    equ     1 << 0      ; Bit 0
-MBOOT_MEM_INFO      equ     1 << 1
+MBOOT_HEADER_MAGIC  equ     0x1BADB002  ; Magic number
+MBOOT_PAGE_ALIGN    equ     1 << 0      ; 0号位表示所有引导模块将4k边界对齐
+MBOOT_MEM_INFO      equ     1 << 1      ; 1表示通过multiboot信息结构的mem_*可用
 MBOOT_HEADER_FLAGS  equ     MBOOT_PAGE_ALIGN | MBOOT_MEM_INFO
-MBOOT_CHECKSUM      equ     -(MBOOT_HEADER_MAGIC+MBOOT_HEADER_FLAGS)
+MBOOT_CHECKSUM      equ     -(MBOOT_HEADER_MAGIC + MBOOT_HEADER_FLAGS)
 
 [BITS 32]
-section .text
+section .init.text
 
 dd MBOOT_HEADER_MAGIC
 dd MBOOT_HEADER_FLAGS
 dd MBOOT_CHECKSUM
 
 [GLOBAL start]
-[GLOBAL glb_mboot_ptr]
+[GLOBAL glb_mboot_ptr_tmp] 
 [EXTERN kern_entry]
 
 start:
@@ -25,19 +25,11 @@ start:
         mov esp, STACK_TOP          ; setup kernel's stack
         mov ebp, 0
         and esp, 0FFFFFFF0H         ; stack address align to 16
-        mov [glb_mboot_ptr], ebx
+        mov [glb_mboot_ptr_tmp], ebx
         call kern_entry
 
-stop:
-        hlt                         ; halt the cpu until next extern interrupt
-        jmp stop                    ; shutdown the machine
-
-section .bss                    ; undefine bss stack
-
-stack:
-        resb 32768                  ; kernel stack
-
-glb_mboot_ptr:
-        resb 4                  ; global multiboot struct
+section             .init.data
+stack:  times       1024    db  0
+glb_mboot_ptr_tmp:          dd  0 ;	未开启分页临时的数据指针
 
 STACK_TOP equ $-stack-1         ; The top of kernel stack

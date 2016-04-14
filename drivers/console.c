@@ -1,7 +1,8 @@
 #include "console.h"
 #include "common.h"
+#include "vmm.h"
 
-static uint16_t *void_memory = (uint16_t *)0xB8000;
+static uint16_t *void_memory = (uint16_t *)(0xB8000 + PAGE_OFFSET) ;
 static uint8_t cursor_x = 0;
 static uint8_t cursor_y = 0;
 
