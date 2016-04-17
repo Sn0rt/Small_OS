@@ -16,9 +16,9 @@ void page_fault(pt_regs *regs)
 
   // bit 1, 0表示读错误,1表示写错误
   if (regs->err_code & 0x02) {
-    printk_color(rc_black, rc_light_red, "write error\n");
+    printk_color(rc_black, rc_light_red, "Write error\n");
   } else {
-    printk_color(rc_black, rc_light_red, "read error\n");
+    printk_color(rc_black, rc_light_red, "Read error\n");
   }
 
   // bit 2, 0表示内核模式打断, 1表示用户模式打断.
