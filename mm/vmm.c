@@ -29,7 +29,7 @@ void map(pgd_t *pgd_now, uint32_t va, uint32_t pa, uint32_t flags)
     pgd_now[pgd_idx] = (uint32_t)pte | PAGE_PRESENT | PAGE_WRITE;
 
     // 转换到内核线性地址并清0
-    pte = (pte_t *)(uint32_t)pte + PAGE_OFFSET;
+    pte = (pte_t *)((uint32_t)pte + PAGE_OFFSET);
     bzero(pte, PAGE_SIZE);
   } else {
     // 转换到内核线性
@@ -110,5 +110,3 @@ void init_vmm()
 
   switch_pgd(pgd_kern_phy_addr);
 }
-
-
