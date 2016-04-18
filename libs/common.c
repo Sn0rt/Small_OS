@@ -1,6 +1,6 @@
 #include "common.h"
 
-//the port write a chart
+// the port write a chart
 inline void outb(uint16_t port, uint8_t value)
 {
     asm volatile ("outb %1, %0"                 \
@@ -9,7 +9,7 @@ inline void outb(uint16_t port, uint8_t value)
                   );
 }
 
-//the port read a chart
+// the port read a chart
 inline uint8_t inb(uint16_t port)
 {
     uint8_t ret;
@@ -20,7 +20,7 @@ inline uint8_t inb(uint16_t port)
     return ret;
 }
 
-//the port read a word
+// the port read a word
 inline uint16_t inw(uint16_t port)
 {
     uint16_t ret;
@@ -29,4 +29,16 @@ inline uint16_t inw(uint16_t port)
                   : "dN" (port)                 \
                   );
     return ret;
+}
+
+// disabled interrupt
+inline void enable_intr()
+{
+  asm volatile ("sti");
+}
+
+// enable interrupt
+inline void disable_intr()
+{
+  asm volatile ("cli" ::: "memory");
 }
