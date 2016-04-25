@@ -4,6 +4,7 @@
 #include "console.h"
 #include "vargs.h"
 #include "elf.h"
+#include "printk.h"
 
 #define assert(x, info)                         \
     do {                                        \
@@ -19,9 +20,4 @@ extern void init_debug();
 
 extern void panic(const char *msg);
 
-extern void print_cur_status();
-
-extern void printk(const char *format, ...);
-
-extern void printk_color(real_color_t back, real_color_t fore, const char *format, ...);
 #endif

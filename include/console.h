@@ -21,7 +21,7 @@ typedef enum real_color {
     rc_light_magenta = 13,
     rc_light_brown = 14,
     rc_white = 15
-}    real_color_t;
+} real_color_t;
 
 extern void console_clear();
 

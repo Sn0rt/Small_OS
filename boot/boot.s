@@ -17,7 +17,7 @@ dd MBOOT_HEADER_FLAGS
 dd MBOOT_CHECKSUM
 
 [GLOBAL start]
-[GLOBAL glb_mboot_ptr_tmp] 
+[GLOBAL mboot_ptr_tmp]
 [EXTERN kern_entry]
 
 start:
@@ -25,11 +25,11 @@ start:
         mov esp, STACK_TOP          ; setup kernel's stack
         mov ebp, 0
         and esp, 0FFFFFFF0H         ; stack address align to 16
-        mov [glb_mboot_ptr_tmp], ebx
+        mov [mboot_ptr_tmp], ebx
         call kern_entry
 
 section             .init.data
 stack:  times       1024    db  0
-glb_mboot_ptr_tmp:          dd  0 ;	未开启分页临时的数据指针
+mboot_ptr_tmp:          dd  0 ;	未开启分页临时的数据指针
 
 STACK_TOP equ $-stack-1         ; The top of kernel stack

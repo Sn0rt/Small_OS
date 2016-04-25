@@ -85,7 +85,7 @@ typedef struct mmap_entry_t {
 } __attribute__((packed)) mmap_entry_t;
 
 /* 未开启分页的multiboot *指针 */
-extern multiboot_t *glb_mboot_ptr_tmp;
+extern multiboot_t *mboot_ptr_tmp;
 
 /* 开启分页的multiboot *指针 */
 extern multiboot_t *glb_mboot_ptr;

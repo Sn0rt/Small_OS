@@ -18,6 +18,9 @@
 /* 页码按照4096对齐 */
 #define PHY_PAGE_MASK 0xfffff000
 
+// 内核栈的栈顶
+extern uint32_t kern_stack_top;
+
 /* 动态内存分配的总页数 */
 extern uint32_t phy_page_count;
 

@@ -1,5 +1,5 @@
 /*
- * =====================================================================================
+ * ================================================================================
  *
  *       Filename:  printk.c
  *
@@ -7,25 +7,19 @@
  *
  *        Version:  1.0
  *        Created:  2013年11月06日 12时06分00秒
- *       Revision:  none
- *       Compiler:  gcc
- *
  *         Author:  Hurley (LiuHuan), liuhuan1992@gmail.com
  *        Company:  Class 1107 of Computer Science and Technology
  *
- * =====================================================================================
+ *         Update: wangguohao.2009@gmail.com
+ *    Update time: Thu Apr 28 10:35:58 CST 2016
+ * ================================================================================
  */
-
-#include "console.h"
-#include "string.h"
-#include "vargs.h"
-#include "debug.h"
+#include "printk.h"
 
 static int vsprintf(char *buff, const char *format, va_list args);
 
 void printk(const char *format, ...)
 {
-	// 避免频繁创建临时变量，内核的栈很宝贵
 	static char buff[1024];
 	va_list args;
 	int i;
@@ -35,13 +29,11 @@ void printk(const char *format, ...)
 	va_end(args);
 
 	buff[i] = '\0';
-
 	console_write(buff);
 }
 
 void printk_color(real_color_t back, real_color_t fore, const char *format, ...)
 {
-	// 避免频繁创建临时变量，内核的栈很宝贵
 	static char buff[1024];
 	va_list args;
 	int i;
@@ -51,35 +43,17 @@ void printk_color(real_color_t back, real_color_t fore, const char *format, ...)
 	va_end(args);
 
 	buff[i] = '\0';
-
 	console_write_color(buff, back, fore);
 }
-
-#define is_digit(c)	((c) >= '0' && (c) <= '9')
 
 static int skip_atoi(const char **s)
 {
 	int i = 0;
-
 	while (is_digit(**s)) {
 		i = i * 10 + *((*s)++) - '0';
 	}
-
-	return i;
+  return i;
 }
-
-#define ZEROPAD		1	// pad with zero
-#define SIGN	 	2   	// unsigned/signed long
-#define PLUS    	4	// show plus
-#define SPACE	  	8   	// space if plus
-#define LEFT	 	16  	// left justified
-#define SPECIAL		32  	// 0x
-#define SMALL	  	64  	// use 'abcdef' instead of 'ABCDEF'
-
-#define do_div(n,base) ({ \
-		int __res; \
-		__asm__("divl %4":"=a" (n),"=d" (__res):"0" (n),"1" (0),"r" (base)); \
-		__res; })
 
 static char *number(char *str, int num, int base, int size, int precision, int type)
 {
@@ -160,22 +134,20 @@ static char *number(char *str, int num, int base, int size, int precision, int t
 	while (size-- > 0) {
 		*str++ = ' ';
 	}
-
 	return str;
 }
 
 static int vsprintf(char *buff, const char *format, va_list args)
 {
-	int len;
-	int i;
-	char *str;
-	char *s;
-	int *ip;
+	int len = 0;
+  int i = 0;
+	char *str = NULL;
+	char *s = NULL;
+	int *ip = NULL;
+	int flags = 0x0000;		// flags to number()
 
-	int flags;		// flags to number()
-
-	int field_width;	// width of output field
-	int precision;		// min. # of digits for integers; max number of chars for from string
+	int field_width = 0;	// width of output field
+	int precision = 0;		// min. # of digits for integers; max number of chars for from string
 
 	for (str = buff ; *format ; ++format) {
 		if (*format != '%') {
@@ -189,12 +161,16 @@ static int vsprintf(char *buff, const char *format, va_list args)
 			switch (*format) {
 				case '-': flags |= LEFT;
 					  goto repeat;
+
 				case '+': flags |= PLUS;
 					  goto repeat;
+
 				case ' ': flags |= SPACE;
 					  goto repeat;
+
 				case '#': flags |= SPECIAL;
 					  goto repeat;
+
 				case '0': flags |= ZEROPAD;
 					  goto repeat;
 			}
@@ -228,13 +204,12 @@ static int vsprintf(char *buff, const char *format, va_list args)
 		}
 
 		// get the conversion qualifier
-		//int qualifier = -1;	// 'h', 'l', or 'L' for integer fields
 		if (*format == 'h' || *format == 'l' || *format == 'L') {
-			//qualifier = *format;
-			++format;
+					++format;
 		}
 
 		switch (*format) {
+
 		case 'c':
 			if (!(flags & LEFT)) {
 				while (--field_width > 0) {
@@ -250,12 +225,12 @@ static int vsprintf(char *buff, const char *format, va_list args)
 		case 's':
 			s = va_arg(args, char *);
 			len = strlen(s);
+
 			if (precision < 0) {
 				precision = len;
 			} else if (len > precision) {
 				len = precision;
 			}
-
 			if (!(flags & LEFT)) {
 				while (len < field_width--) {
 					*str++ = ' ';
@@ -285,18 +260,22 @@ static int vsprintf(char *buff, const char *format, va_list args)
 
 		case 'x':
 			flags |= SMALL;
+
 		case 'X':
 			str = number(str, va_arg(args, unsigned long), 16,
 				field_width, precision, flags);
 			break;
 
 		case 'd':
+
 		case 'i':
 			flags |= SIGN;
+
 		case 'u':
 			str = number(str, va_arg(args, unsigned long), 10,
 				field_width, precision, flags);
 			break;
+
 		case 'b':
 			str = number(str, va_arg(args, unsigned long), 2,
 				field_width, precision, flags);
@@ -319,6 +298,5 @@ static int vsprintf(char *buff, const char *format, va_list args)
 		}
 	}
 	*str = '\0';
-
 	return (str -buff);
 }

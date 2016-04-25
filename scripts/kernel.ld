@@ -1,5 +1,5 @@
 /*
- *      kernel.ld -- 针对 kernel 格式所写的链接脚本
+ *      kernel.ld -- 针对 32-bit 链接脚本
  */
 
 ENTRY(start)
