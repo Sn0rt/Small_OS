@@ -141,33 +141,3 @@ void kfree(void *p)
   // 合并内存
   glue_chunk(header);
 }
-
-void test_heap()
-{
-  printk_color(rc_black, rc_magenta, "TEST OF kmalloc() && kfree(), now....\n\n");
-
-  void *addr1 = kmalloc(50);
-  printk("kmalloc 50 bytes in 0x%x\n", addr1);
-  void *addr2 = kmalloc(500);
-  printk("kmalloc 500 bytes in 0x%x\n", addr2);
-  void *addr3 = kmalloc(1000);
-  printk("kmalloc 1000 bytes in 0x%x\n", addr3);
-  void *addr4 = kmalloc(10000);
-  printk("kmalloc 10000 bytes in 0x%x\n", addr4);
-  void *addr5 = kmalloc(5000000);
-  printk("kmalloc 50000 bytes in 0x%x\n", addr5);
-  void *addr6 = kmalloc(4);
-  printk("kmalloc 4 bytes in 0x%x\n", addr6);
-
-  printk("\nNow to free heap, addr6. 5. 4. 1. 2. 3. 1\n");
-  kfree(addr6);
-  kfree(addr5);
-  kfree(addr4);
-  kfree(addr3);
-  kfree(addr1);
-  kfree(addr2);
-  kfree(addr1);                 /* for test */
-
-  void * emptry = kmalloc(1);
-  printk("\nNow the heap should empty.\nKmalloc 1 bytes in 0x%x\n", emptry);
-}
