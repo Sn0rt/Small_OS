@@ -1,4 +1,4 @@
-k##Small OS
+##Small OS
 
 <h3>项目说明</h3>
 small_os目的是实现一个简单的unix like系统，目的是学习操作系统原理。

@@ -110,10 +110,10 @@ void kern_init()
   init_vmm();
   init_heap();
   init_sched();
+  init_fs();
   kernel_thread(thread_A, NULL);
   enable_intr();
   kernel_thread(thread_B, NULL);
-
   while(1) {
     asm volatile ("hlt");
   }
